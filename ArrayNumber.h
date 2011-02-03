@@ -22,6 +22,7 @@ class ArrayNumber{
 	    ArrayNumber(long x, char base=10);
 
 	    const list<char>& getDigits() const ;
+	    list<char>& setDigits();
 	    char getBase() const ;
 };
 

@@ -14,6 +14,9 @@ ArrayNumber::ArrayNumber(int n, char N): digits_(n,N)
 const list<char>& ArrayNumber::getDigits()const{
     return digits_;
 }
+list<char>& ArrayNumber::setDigits(){
+    return digits_;
+}
 char ArrayNumber::getBase()const{
     return base_;
 }

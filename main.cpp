@@ -33,7 +33,7 @@ int main() {
     }
       cout << " " << endl;
     UInteger *ut = new UInteger();
-    ut2 -= ut1;
+    ut2 += ut1;
     int i =0;
     for (std::list<char>::iterator it = (ut2).digits_.begin();it != (ut2).digits_.end();it++) {
         cout << (int)*it << ends;
