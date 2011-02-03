@@ -25,6 +25,9 @@ class UInteger : public ArrayNumber{
         bool operator ==(const UInteger &x)const;
         bool operator !=(const UInteger &x)const;
         bool operator <(const UInteger &x)const;
+        bool operator <=(const UInteger &x)const;
+        bool operator >(const UInteger &x)const;
+        bool operator >=(const UInteger &x)const;
     private:
         UInteger bourage(size_t nb) const;
 };

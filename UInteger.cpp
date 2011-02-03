@@ -143,6 +143,9 @@ UInteger UInteger::operator +(const UInteger &x)const{
     return *result;
  }
 UInteger UInteger::operator -(const UInteger &x)const{
+    if(operator<(x)){
+        return NULL;
+    }
 //ajout de zero
     UInteger uia,uib;
     if((x.getDigits().size()) > getDigits().size()){
@@ -242,23 +245,52 @@ bool UInteger::operator ==(const UInteger &x)const{
  }
  bool UInteger::operator <(const UInteger &x)const{
     bool result = false;
-    std::_List_const_iterator<char> ita = x.getDigits().end();
-    for (std::_List_const_iterator<char> itb = getDigits().end();(itb != getDigits().begin() || ita!= x.getDigits().begin() )&& !result;ita--) {
+    UInteger uia,uib;//copie de this et x
+    uia=UInteger(*this);
+    uib=UInteger(x);
+    std::list<char>::reverse_iterator ita = uia.setDigits().rbegin();
+    for (std::list<char>::reverse_iterator itb = uib.setDigits().rbegin();(itb != uib.setDigits().rend() && ita!= uia.setDigits().rend() )&& !result;ita++) {
         if(*ita>*itb){
             result = true;
         }
-        itb--;
+        itb++;
+    }
+    if(ita!= uia.setDigits().rend()){
+        return true;
     }
     return result;
+}
+ bool UInteger::operator <=(const UInteger &x)const{
+    return (operator<(x) || operator==(x) );
  }
- UInteger UInteger::bourage(size_t nb)const{
+  bool UInteger::operator >(const UInteger &x)const{
+    bool result = false;
+    UInteger uia,uib;//copie de this et x
+    uia=UInteger(*this);
+    uib=UInteger(x);
+    std::list<char>::reverse_iterator ita = uib.setDigits().rbegin();
+    for (std::list<char>::reverse_iterator itb = uia.setDigits().rbegin();(itb != uia.setDigits().rend() && ita!= uib.setDigits().rend() )&& !result;ita++) {
+        if(*ita>*itb){
+            result = true;
+        }
+        itb++;
+    }
+    if(ita!= uia.setDigits().rend()){
+        return true;
+    }
+    return result;
+}
+ bool UInteger::operator >=(const UInteger &x)const{
+    return (operator>(x) || operator==(x) );
+ }
+UInteger UInteger::bourage(size_t nb)const{
     UInteger result = UInteger(*this);
     for(unsigned int i =0;i<nb;i++){
         result.setDigits().push_back(0);
     }
     return result;
 
- }
+}
 
 
 
