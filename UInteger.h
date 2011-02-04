@@ -1,11 +1,17 @@
 #ifndef DEF_UINTEGER
 #define DEF_UINTEGER
 
-#include "ArrayNumber.h"
 
+
+
+#include "ArrayNumber.h"
+#include <iostream>
+#include <ostream>
 class UInteger : public ArrayNumber{
 
 	public:
+
+
 		UInteger();
 		//copie
 		UInteger(UInteger const& x);
@@ -22,16 +28,19 @@ class UInteger : public ArrayNumber{
         UInteger operator -(const UInteger &x)const;
 		UInteger& operator +=(const UInteger &x);
         UInteger& operator -=(const UInteger &x);
+        UInteger& operator ++();
         bool operator ==(const UInteger &x)const;
         bool operator !=(const UInteger &x)const;
         bool operator <(const UInteger &x)const;
         bool operator <=(const UInteger &x)const;
         bool operator >(const UInteger &x)const;
         bool operator >=(const UInteger &x)const;
+        UInteger operator /(const UInteger &x)const;
+        UInteger operator *(const UInteger &x)const;
     private:
         UInteger bourage(size_t nb) const;
 };
-
+        std::ostream& operator << (std::ostream& os,UInteger &x);
 #endif
 
 

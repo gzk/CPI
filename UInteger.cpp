@@ -1,127 +1,27 @@
 
+
+#include <ostream>
+
+#include "ArrayNumber.h"
 #include "UInteger.h"
 
 #include <iterator>
 
 #include <math.h>
-#include <sstream>
+
 //
-#include <iostream>
+
 //
 
 
 using namespace std;
 UInteger::UInteger():ArrayNumber(){}
-
 //copie
 UInteger::UInteger(UInteger const& x){
     digits_ = x.getDigits();
     base_ = x.getBase();
 }
-
-//autres
-//UInteger::UInteger(unsigned long x,char base) :ArrayNumber((long)x, base){}
-
 UInteger::UInteger(long x, int base):ArrayNumber((long)x, base){}
-
-/*UInteger::UInteger(unsigned int x, char base):ArrayNumber((long) x, base){}
-
-UInteger::UInteger(int x, char base):ArrayNumber((long) x, base){}
-
-UInteger::UInteger(unsigned short x ,char base):ArrayNumber((long) x, base){}
-
-UInteger::UInteger(short x, char base):ArrayNumber((long) x, base){}
-
-UInteger::UInteger(char x, char base) :ArrayNumber((long) x, base){}
-
-
-
-UInteger::UInteger():ArrayNumber(0,0){
-
-}
-//copie
-UInteger::UInteger(UInteger const& x):ArrayNumber(sizeof(unsigned long)+1,0){
-    digits_=x.getDigits();
-    base_=x.base_;
-}
-//autres
-UInteger::UInteger(unsigned long x,int base) :ArrayNumber(sizeof(unsigned long)+1,0){
-    base_=base;
-    int j = 0;
-    int tmp ;
-    int taille = sizeof(unsigned short)+1;
-    for (std::list<char>::iterator it = digits_.begin();it != getDigits().end();it++) {
-        tmp = (int) x/(pow(base_,taille-1-j++));
-        *it = tmp ;
-        x-=(tmp*(pow(base_,taille-j)));
-    }
-    digits_.reverse();
-
-}
-UInteger::UInteger(long x,int base):ArrayNumber(sizeof(long)+1,0){
-    base_=base;
-    int j = 0;
-    int tmp ;
-    int taille = sizeof(long)+1;
-    for (std::list<char>::iterator it = getDigits().begin();it != getDigits().end();it++) {
-        tmp = (int) x/(pow(base_,taille-1-j++));
-        *it = tmp ;
-        x-=(tmp*(pow(base_,taille-j)));
-    }
-    digits_.reverse();
-}
-UInteger::UInteger(unsigned int x,int base):ArrayNumber(sizeof(unsigned int)+1,0){
-    base_=base;
-    int j = 0;
-    int tmp ;
-    int taille = sizeof(unsigned int)+1;
-    for (std::list<char>::iterator it = getDigits().begin();it != getDigits().end();it++) {
-        tmp = (int) x/(pow(base_,taille-1-j++));
-        *it = tmp ;
-        x-=(tmp*(pow(base_,taille-j)));
-    }
-    getDigits().reverse();
-}
-UInteger::UInteger(int x,int base):ArrayNumber(sizeof(int)+1,0){
-    base_=base;
-    int j = 0;
-    int tmp ;
-    int taille = sizeof(int)+1;
-    for (std::list<char>::iterator it = getDigits().begin();it != getDigits().end();it++) {
-        tmp = (int) x/(pow(base_,taille-1-j++));
-        *it = tmp ;
-        x-=(tmp*(pow(base_,taille-j)));
-    }
-    getDigits().reverse();
-}
-UInteger::UInteger(unsigned short x,int base):ArrayNumber(sizeof(unsigned short)+1,0){
-    base_=base;
-    int j = 0;
-    int tmp ;
-    int taille = sizeof(unsigned short)+1;
-    for (std::list<char>::iterator it = getDigits().begin();it != getDigits().end();it++) {
-        tmp = (int) x/(pow(base_,taille-1-j++));
-        *it = tmp ;
-        x-=(tmp*(pow(base_,taille-j)));
-    }
-    getDigits().reverse();
-}
-UInteger::UInteger(short x,int base):ArrayNumber(sizeof(short)+1,0){
-    base_=base;
-    int j = 0;
-    int tmp ;
-    int taille = sizeof(short)+1;
-    for (std::list<char>::iterator it = getDigits().begin();it != getDigits().end();it++) {
-        tmp = (int) x/(pow(base_,taille-1-j++));
-        *it = tmp ;
-        x-=(tmp*(pow(base_,taille-j)));
-    }
-    getDigits().reverse();
-}
-UInteger::UInteger(char x,int base) :ArrayNumber(sizeof(char)+1,0){
-    base_=base;
-}
-*/
 UInteger UInteger::operator +(const UInteger &x)const{
     UInteger uia,uib;
     if((x.getDigits().size()) > getDigits().size()){
@@ -140,6 +40,7 @@ UInteger UInteger::operator +(const UInteger &x)const{
         retenue=(retenue+*ita+*itb)/base_;
         itb++;
     }
+    if(retenue > 0) (*result).setDigits().push_back((retenue));
     return *result;
  }
 UInteger UInteger::operator -(const UInteger &x)const{
@@ -171,6 +72,7 @@ UInteger UInteger::operator -(const UInteger &x)const{
         }
         itb++;
         }
+
     return *result;
  }
  UInteger& UInteger::operator -=(const UInteger &x){
@@ -214,10 +116,12 @@ UInteger UInteger::operator -(const UInteger &x)const{
     }
     std::_List_iterator<char> itb = uia.setDigits().begin();
     for (std::_List_const_iterator<char> ita = uib.getDigits().begin();ita != uib.getDigits().end() || itb!= uia.getDigits().end();ita++) {
-        *itb=((retenue+*ita+*itb)%base_);
-        retenue=(retenue+*ita+*itb)/base_;
+        *itb=((retenue+*itb+*ita)%base_);
+        retenue=(retenue+*itb+*ita)/base_;
+        cout << retenue << endl;
         itb++;
     }
+    if(retenue > 0) uia.setDigits().push_back((retenue));
     setDigits()=uia.getDigits();
     return *this;
  }
@@ -283,9 +187,36 @@ bool UInteger::operator ==(const UInteger &x)const{
  bool UInteger::operator >=(const UInteger &x)const{
     return (operator>(x) || operator==(x) );
  }
+ostream& UInteger::operator << (ostream& os,UInteger &x)const{
+        list<char>::const_reverse_iterator it;
+        //for(it = setDigits().rbegin(); it != setDigits().rend() ; it++){
+         //   os << (int)*it;
+        //}
+        it = setDigits().rbegin();
+        os << *it;
+        return os;
+  }
+ UInteger& UInteger::operator ++(){
+        *this += UInteger((long)1);
+        return  *this;
+ }
+ UInteger UInteger::operator /(const UInteger &x)const{
+    if(x >= *this)return NULL;
+    for(UInteger i = UInteger((long)0); i<x;++i){
+        //*this -=
+    }
+ }
+  UInteger UInteger::operator *(const UInteger &x)const{
+    UInteger result = UInteger((long)0);
+    for(UInteger i = UInteger((long)1); i<x;++i){
+        cout << "cgsqfc" << ends;
+        result += x;
+    }
+    return result;
+ }
 UInteger UInteger::bourage(size_t nb)const{
     UInteger result = UInteger(*this);
-    for(unsigned int i =0;i<nb;i++){
+    for(int i =0;i<nb;i++){
         result.setDigits().push_back(0);
     }
     return result;

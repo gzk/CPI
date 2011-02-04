@@ -15,14 +15,14 @@ int main() {
         cout << (int)*it << ends;
     }
      cout << " " << endl;
-    UInteger ut2(l2,10);
+    UInteger ut2 = UInteger(l2,10);
+
     for (std::list<char>::iterator it = (ut2).digits_.begin();it != (ut2).digits_.end();it++) {
         cout << (int)*it << ends;
     }
       cout << " " << endl;
-    UInteger *ut = new UInteger();
-   // ut2 += ut1;
-    int i =0;
+
+    ut2 += ut1;
     for (std::list<char>::iterator it = (ut2).digits_.begin();it != (ut2).digits_.end();it++) {
         cout << (int)*it << ends;
     }

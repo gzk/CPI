@@ -1,8 +1,7 @@
-#include <list>
+
 #ifndef DEF_ARRAYNUMBER
 #define DEF_ARRAYNUMBER
-
-using namespace std;
+#include <list>
 
 class ArrayNumber{
 
@@ -11,18 +10,12 @@ class ArrayNumber{
 		char base_;
 
 	public:
-        std::list<char> digits_;
-/*
-        std::list<char> getList()const;
-		ArrayNumber();
-		ArrayNumber(int n, char N);
-*/
+	    std::list<char> digits_;
 	    ArrayNumber();
 	    ArrayNumber(const ArrayNumber& a);
 	    ArrayNumber(long x, char base=10);
-
-	    const list<char>& getDigits() const ;
-	    list<char>& setDigits();
+	    const std::list<char>& getDigits() const ;
+	    std::list<char>& setDigits();
 	    char getBase() const ;
 };
 
