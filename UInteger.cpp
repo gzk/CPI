@@ -103,28 +103,8 @@ UInteger UInteger::operator -(const UInteger &x)const{
   return *this;
  }
  UInteger& UInteger::operator +=(const UInteger &x){
-
-    //int retenue =0;
-        //ajout de zero
-    UInteger uia;//copie de this et x avec ajout de zero
+    UInteger uia;
     uia = x + *this;
-    //if(x+)
-    /*if((x.getDigits().size()) > getDigits().size()){
-        uia=bourage(x.getDigits().size()-getDigits().size());
-        uib=x;
-    }
-    else{
-        uib=x.bourage(getDigits().size()-x.getDigits().size());
-        uia=*this;
-    }
-    std::_List_iterator<char> itb = uia.setDigits().begin();
-    for (std::_List_const_iterator<char> ita = uib.getDigits().begin();ita != uib.getDigits().end() || itb!= uia.getDigits().end();ita++) {
-        *itb=((retenue+*itb+*ita)%base_);
-        retenue=(retenue+*itb+*ita)/base_;
-        cout << retenue << endl;
-        itb++;
-    }
-    if(retenue > 0) uia.setDigits().push_back((retenue));*/
     setDigits()=uia.getDigits();
     return *this;
  }
