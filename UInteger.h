@@ -29,6 +29,9 @@ class UInteger : public ArrayNumber{
 		UInteger& operator +=(const UInteger &x);
         UInteger& operator -=(const UInteger &x);
         UInteger& operator ++();
+        UInteger& operator ++(int i);
+        UInteger& operator --();
+        UInteger& operator --(int i);
         bool operator ==(const UInteger &x)const;
         bool operator !=(const UInteger &x)const;
         bool operator <(const UInteger &x)const;
@@ -36,11 +39,15 @@ class UInteger : public ArrayNumber{
         bool operator >(const UInteger &x)const;
         bool operator >=(const UInteger &x)const;
         UInteger operator /(const UInteger &x)const;
+        UInteger operator %(const UInteger &x)const;
         UInteger operator *(const UInteger &x)const;
+        UInteger& operator /=(const UInteger &x);
+        UInteger& operator *=(const UInteger &x);
+        UInteger& operator %=(const UInteger &x);
     private:
         UInteger bourage(size_t nb) const;
 };
-        std::ostream& operator << (std::ostream& os,UInteger &x);
+        std::ostream& operator << (std::ostream& os,const UInteger &x);
 #endif
 
 

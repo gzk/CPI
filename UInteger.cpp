@@ -103,10 +103,13 @@ UInteger UInteger::operator -(const UInteger &x)const{
   return *this;
  }
  UInteger& UInteger::operator +=(const UInteger &x){
-    int retenue =0;
+
+    //int retenue =0;
         //ajout de zero
-    UInteger uia,uib;//copie de this et x avec ajout de zero
-    if((x.getDigits().size()) > getDigits().size()){
+    UInteger uia;//copie de this et x avec ajout de zero
+    uia = x + *this;
+    //if(x+)
+    /*if((x.getDigits().size()) > getDigits().size()){
         uia=bourage(x.getDigits().size()-getDigits().size());
         uib=x;
     }
@@ -121,7 +124,7 @@ UInteger UInteger::operator -(const UInteger &x)const{
         cout << retenue << endl;
         itb++;
     }
-    if(retenue > 0) uia.setDigits().push_back((retenue));
+    if(retenue > 0) uia.setDigits().push_back((retenue));*/
     setDigits()=uia.getDigits();
     return *this;
  }
@@ -148,71 +151,116 @@ bool UInteger::operator ==(const UInteger &x)const{
     return result;
  }
  bool UInteger::operator <(const UInteger &x)const{
-    bool result = false;
     UInteger uia,uib;//copie de this et x
     uia=UInteger(*this);
     uib=UInteger(x);
+    //bourrage
+    if((x.getDigits().size()) > getDigits().size()){
+        uia=bourage(x.getDigits().size()-getDigits().size());
+        uib=x;
+    }
+    else{
+        uib=x.bourage(getDigits().size()-x.getDigits().size());
+        uia=*this;
+    }
+    //
     std::list<char>::reverse_iterator ita = uia.setDigits().rbegin();
-    for (std::list<char>::reverse_iterator itb = uib.setDigits().rbegin();(itb != uib.setDigits().rend() && ita!= uia.setDigits().rend() )&& !result;ita++) {
-        if(*ita>*itb){
-            result = true;
+    for(std::list<char>::reverse_iterator itb = uib.setDigits().rbegin();itb != uib.setDigits().rend() && ita!= uia.setDigits().rend();ita++) {
+        if(*ita<*itb){
+            return true;
+        }
+         if(*ita>*itb){
+            return false;
         }
         itb++;
     }
-    if(ita!= uia.setDigits().rend()){
-        return true;
-    }
-    return result;
+    return false;
 }
  bool UInteger::operator <=(const UInteger &x)const{
     return (operator<(x) || operator==(x) );
  }
   bool UInteger::operator >(const UInteger &x)const{
-    bool result = false;
-    UInteger uia,uib;//copie de this et x
-    uia=UInteger(*this);
-    uib=UInteger(x);
-    std::list<char>::reverse_iterator ita = uib.setDigits().rbegin();
-    for (std::list<char>::reverse_iterator itb = uia.setDigits().rbegin();(itb != uia.setDigits().rend() && ita!= uib.setDigits().rend() )&& !result;ita++) {
-        if(*ita>*itb){
-            result = true;
-        }
-        itb++;
-    }
-    if(ita!= uia.setDigits().rend()){
-        return true;
-    }
-    return result;
+
+    return (!operator<=(x));
+
 }
  bool UInteger::operator >=(const UInteger &x)const{
     return (operator>(x) || operator==(x) );
  }
-ostream& UInteger::operator << (ostream& os,UInteger &x)const{
+ostream& operator << (ostream& os,const UInteger &x){
         list<char>::const_reverse_iterator it;
-        //for(it = setDigits().rbegin(); it != setDigits().rend() ; it++){
-         //   os << (int)*it;
-        //}
-        it = setDigits().rbegin();
-        os << *it;
+        for(it = x.getDigits().rbegin();it != x.getDigits().rend(); it++){
+            os << (int)*it;
+        }
         return os;
   }
  UInteger& UInteger::operator ++(){
-        *this += UInteger((long)1);
+        *this += UInteger((long)1,getBase());
+        return  *this;
+ }
+   UInteger& UInteger::operator ++(int i){
+        *this += UInteger((long)i,getBase());
+        return  *this;
+ }
+  UInteger& UInteger::operator --(){
+        *this -= UInteger((long)1,getBase());
+        return  *this;
+ }
+  UInteger& UInteger::operator --(int i){
+        *this -= UInteger((long)i,getBase());
         return  *this;
  }
  UInteger UInteger::operator /(const UInteger &x)const{
-    if(x >= *this)return NULL;
-    for(UInteger i = UInteger((long)0); i<x;++i){
-        //*this -=
+    if(x>*this || x ==UInteger((long)0)){
+        return UInteger((long)0,getBase());
     }
- }
-  UInteger UInteger::operator *(const UInteger &x)const{
-    UInteger result = UInteger((long)0);
-    for(UInteger i = UInteger((long)1); i<x;++i){
-        cout << "cgsqfc" << ends;
-        result += x;
+    UInteger result = UInteger((long)0,getBase());
+    UInteger thisbis = *this;
+    while(thisbis-x>UInteger((long)0,getBase())){
+        thisbis-=x;
+        ++result;
+    }
+    if(thisbis==x){
+        ++result;
     }
     return result;
+ }
+  UInteger UInteger::operator *(const UInteger &x)const{
+    UInteger result = UInteger((long)0,getBase());
+    for(UInteger i = UInteger((long)0,getBase()); i<x;++i){
+        result += *this;
+    }
+    return result;
+ }
+
+ UInteger& UInteger::operator /=(const UInteger &x){
+    *this=*this / x;
+    return *this;
+ }
+  UInteger& UInteger::operator *=(const UInteger &x){
+    *this=*this * x;
+    return *this;
+ }
+UInteger UInteger::operator %(const UInteger &x)const{
+    if(x>*this || x ==UInteger((long)0)){
+        return UInteger((long)0,getBase());
+    }
+    UInteger result = UInteger((long)0,getBase());
+    UInteger thisbis = *this;
+
+    while(thisbis-x>UInteger((long)0,getBase())){
+        thisbis-=x;
+        ++result;
+    }
+    if(thisbis==x){
+        ++result;
+    }
+
+    return thisbis;
+ }
+  UInteger& UInteger::operator %=(const UInteger &x){
+    *this=*this % x;
+    return *this;
  }
 UInteger UInteger::bourage(size_t nb)const{
     UInteger result = UInteger(*this);
