@@ -41,11 +41,14 @@ class UInteger : public ArrayNumber{
         UInteger operator /(const UInteger &x)const;
         UInteger operator %(const UInteger &x)const;
         UInteger operator *(const UInteger &x)const;
+        UInteger operator ^(const UInteger &x)const;
         UInteger& operator /=(const UInteger &x);
         UInteger& operator *=(const UInteger &x);
         UInteger& operator %=(const UInteger &x);
+        UInteger toBase(char base);
     private:
-        UInteger bourage(size_t nb) const;
+        UInteger bourrage(size_t nb) const;
+
 };
         std::ostream& operator << (std::ostream& os,const UInteger &x);
 #endif

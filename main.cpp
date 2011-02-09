@@ -15,7 +15,7 @@ int main() {
 
     cout << ut1 <<" / "<<ut2 << endl;
 
-    ut1  = ut1 * ut2;
+    ut1  = ut1^ut2;
 
     cout << "resultat : "<< ut1 << ends;
 

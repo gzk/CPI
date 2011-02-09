@@ -25,11 +25,11 @@ UInteger::UInteger(long x, int base):ArrayNumber((long)x, base){}
 UInteger UInteger::operator +(const UInteger &x)const{
     UInteger uia,uib;
     if((x.getDigits().size()) > getDigits().size()){
-        uia=bourage(x.getDigits().size()-getDigits().size());
+        uia=bourrage(x.getDigits().size()-getDigits().size());
         uib=x;
     }
     else{
-        uib=x.bourage(getDigits().size()-x.getDigits().size());
+        uib=x.bourrage(getDigits().size()-x.getDigits().size());
         uia=*this;
     }
     UInteger *result = new UInteger();
@@ -50,11 +50,11 @@ UInteger UInteger::operator -(const UInteger &x)const{
 //ajout de zero
     UInteger uia,uib;
     if((x.getDigits().size()) > getDigits().size()){
-        uia=bourage(x.getDigits().size()-getDigits().size());
+        uia=bourrage(x.getDigits().size()-getDigits().size());
         uib=x;
     }
     else{
-        uib=x.bourage(getDigits().size()-x.getDigits().size());
+        uib=x.bourrage(getDigits().size()-x.getDigits().size());
         uia=*this;
     }
     int retenue =0;
@@ -80,11 +80,11 @@ UInteger UInteger::operator -(const UInteger &x)const{
     //ajout de zero
     UInteger uia,uib;//copie de this et x avec ajout de zero
     if((x.getDigits().size()) > getDigits().size()){
-        uia=bourage(x.getDigits().size()-getDigits().size());
+        uia=bourrage(x.getDigits().size()-getDigits().size());
         uib=x;
     }
     else{
-        uib=x.bourage(getDigits().size()-x.getDigits().size());
+        uib=x.bourrage(getDigits().size()-x.getDigits().size());
         uia=*this;
     }
     std::_List_iterator<char> itb = uia.setDigits().begin();
@@ -136,11 +136,11 @@ bool UInteger::operator ==(const UInteger &x)const{
     uib=UInteger(x);
     //bourrage
     if((x.getDigits().size()) > getDigits().size()){
-        uia=bourage(x.getDigits().size()-getDigits().size());
+        uia=bourrage(x.getDigits().size()-getDigits().size());
         uib=x;
     }
     else{
-        uib=x.bourage(getDigits().size()-x.getDigits().size());
+        uib=x.bourrage(getDigits().size()-x.getDigits().size());
         uia=*this;
     }
     //
@@ -227,22 +227,30 @@ UInteger UInteger::operator %(const UInteger &x)const{
     }
     UInteger result = UInteger((long)0,getBase());
     UInteger thisbis = *this;
-
     while(thisbis-x>UInteger((long)0,getBase())){
+            cout << *this << endl;
         thisbis-=x;
         ++result;
     }
     if(thisbis==x){
+        thisbis-=x;
         ++result;
     }
 
     return thisbis;
  }
+ UInteger UInteger::operator ^(const UInteger &x)const{
+    UInteger result =*this;
+     for(UInteger i = UInteger((long)1);i<x;++i){
+        result *= result;
+     }
+     return result;
+ }
   UInteger& UInteger::operator %=(const UInteger &x){
     *this=*this % x;
     return *this;
  }
-UInteger UInteger::bourage(size_t nb)const{
+UInteger UInteger::bourrage(size_t nb)const{
     UInteger result = UInteger(*this);
     for(int i =0;i<nb;i++){
         result.setDigits().push_back(0);
@@ -250,6 +258,26 @@ UInteger UInteger::bourage(size_t nb)const{
     return result;
 
 }
+
+UInteger UInteger::toBase(char base){
+    UInteger result =UInteger((long)0,base);
+    if (*this==UInteger((long)0))result.setDigits()=getDigits();
+	else{
+	    UInteger tmp =*this;
+	    UInteger cpt = UInteger((long)1,getBase());
+	    while(tmp > UInteger((long)0,getBase())){
+	        cout << (tmp % UInteger((long)base,getBase())) << endl;
+           //
+         //   result+=(tmp / UInteger((long)base,getBase()))*(base^cpt); <========= probleme avec la puissance
+            ++cpt;
+            tmp /= UInteger((long) base,getBase());
+
+	    }
+	}
+    return result;
+
+}
+
 
 
 

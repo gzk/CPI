@@ -39,5 +39,7 @@ ArrayNumber::ArrayNumber(long n, char base){
 	    //cout << "STOP!" << endl;
 	}
 }
+
+
 ArrayNumber::ArrayNumber(ArrayNumber const& a):digits_(a.getDigits()),base_(a.getBase()){}
 
