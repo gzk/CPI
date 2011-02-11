@@ -11,7 +11,6 @@ class UInteger : public ArrayNumber{
 
 	public:
 
-
 		UInteger();
 		//copie
 		UInteger(UInteger const& x);
@@ -23,6 +22,12 @@ class UInteger : public ArrayNumber{
 		UInteger(unsigned short x,int base_=10);
 		UInteger(short x,int base_=10);
 		UInteger(char x,int base_=10);
+
+        UInteger operator <<(int b)const;
+        UInteger operator >>(int b)const;
+
+		UInteger operator &(const UInteger &x)const;
+        UInteger operator |(const UInteger &x)const;
 
 		UInteger operator +(const UInteger &x)const;
         UInteger operator -(const UInteger &x)const;
@@ -45,12 +50,11 @@ class UInteger : public ArrayNumber{
         UInteger& operator /=(const UInteger &x);
         UInteger& operator *=(const UInteger &x);
         UInteger& operator %=(const UInteger &x);
-        UInteger toBase(char base);
+        UInteger toBase(char base)const;
     private:
         UInteger bourrage(size_t nb) const;
 
 };
         std::ostream& operator << (std::ostream& os,const UInteger &x);
 #endif
-
 

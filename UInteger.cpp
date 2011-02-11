@@ -167,13 +167,13 @@ bool UInteger::operator ==(const UInteger &x)const{
  bool UInteger::operator >=(const UInteger &x)const{
     return (operator>(x) || operator==(x) );
  }
-ostream& operator << (ostream& os,const UInteger &x){
+/*ostream& operator << (ostream& os,const UInteger &x){
         list<char>::const_reverse_iterator it;
         for(it = x.getDigits().rbegin();it != x.getDigits().rend(); it++){
             os << (int)*it;
         }
         return os;
-  }
+  }*/
  UInteger& UInteger::operator ++(){
         *this += UInteger((long)1,getBase());
         return  *this;
@@ -250,32 +250,125 @@ UInteger UInteger::operator %(const UInteger &x)const{
     *this=*this % x;
     return *this;
  }
+UInteger UInteger::operator &(const UInteger &n)const{
+    UInteger x =toBase(2);
+    UInteger y =n.toBase(2);
+    if((x.getDigits().size()) > y.getDigits().size()){
+        y=x.bourrage(x.getDigits().size()-y.getDigits().size());
+        x=y;
+    }
+    else{
+        x=x.bourrage(y.getDigits().size()-x.getDigits().size());
+    }
+    UInteger result = UInteger();
+    std::_List_const_iterator<char> itx = x.getDigits().begin();
+    for (std::_List_const_iterator<char> ity = y.getDigits().begin();ity != y.getDigits().end() || itx!= x.getDigits().end();itx++) {
+        if(*itx==*ity==1){
+        result.setDigits().push_back(1);
+        }
+        else result.setDigits().push_back(0);
+        ity++;
+    }
+
+    return     result.toBase(getBase());
+ }
+UInteger UInteger::operator |(const UInteger &x)const{
+    UInteger result =*this;
+     for(UInteger i = UInteger((long)1);i<x;++i){
+        result *= result;
+     }
+     return result;
+ }
+
+
+
+
+UInteger UInteger::operator <<(int b) const{
+	UInteger result = (*this).toBase((char)2); //on convertit en base 2
+	for(int i=0; i<b; i++){
+		result.setDigits().push_front((char)0); //on ajoute b zéros à la fin du nombre (donc au début de la liste!)
+	}
+	return result;
+}
+
+UInteger UInteger::operator >>(int b) const{
+  	UInteger result = (*this).toBase((char)2); //on convertit en base 2
+ 	for(int i=0; i<b; i++){
+ 		result.setDigits().pop_front(); //on enlève les b bits de la fin du nombre (donc du début de la liste)
+ 	}
+ 	return result;
+}
+
+/*Cette fonction permet de remplier avec des zéros la liste de chiffres afin que lors d'une opération sur deux nombres, leurs listes aient la même longueur*/
 UInteger UInteger::bourrage(size_t nb)const{
     UInteger result = UInteger(*this);
-    for(int i =0;i<nb;i++){
+    for(int i =0;i<(int)nb;i++){
         result.setDigits().push_back(0);
     }
     return result;
 
 }
+/*Convertisseur vers une base donnée*/
+UInteger UInteger::toBase(char b)const{
+	UInteger result =UInteger();
+	result.base_=b;
 
-UInteger UInteger::toBase(char base){
-    UInteger result =UInteger((long)0,base);
-    if (*this==UInteger((long)0))result.setDigits()=getDigits();
+	if (*this==UInteger((long)0))result.setDigits()=getDigits();//si le nombre vaut 0, il vaut 0 dans toutes les bases
+
 	else{
-	    UInteger tmp =*this;
-	    UInteger cpt = UInteger((long)1,getBase());
-	    while(tmp > UInteger((long)0,getBase())){
-	        cout << (tmp % UInteger((long)base,getBase())) << endl;
-           //
-         //   result+=(tmp / UInteger((long)base,getBase()))*(base^cpt); <========= probleme avec la puissance
-            ++cpt;
-            tmp /= UInteger((long) base,getBase());
-
-	    }
+		UInteger tmp = *this;
+		UInteger base = UInteger((long)b,getBase());
+		int cpt = 0;
+		cout<< "base= " << base <<endl;
+		do{
+			UInteger reste(tmp);
+			reste %= base;
+			cout <<"reste = "<< (int)reste.getDigits().front() << endl;
+			result.setDigits().push_back(reste.getDigits().front());
+            if(tmp >= base){
+                tmp /= base;
+            }
+		}while(tmp >= base);
+        cout <<"tmp = " << tmp << endl;
+        result.setDigits().push_back(tmp.getDigits().front());
 	}
     return result;
 
+}
+
+
+//opérateur d'affichage
+ostream& operator << (ostream &os, const UInteger &output){
+
+	list<char>::const_reverse_iterator it;
+
+	for(it = output.getDigits().rbegin(); it != output.getDigits().rend() ; it++){
+		switch(*it){
+		case 10:
+			os << 'A';
+			break;
+		case 11:
+			os << 'B';
+			break;
+		case 12:
+			os << 'C';
+			break;
+		case 13:
+			os << 'D';
+			break;
+		case 14:
+			os << 'E';
+			break;
+		case 15:
+			os << 'F';
+			break;
+		default:
+			os << (int)*it;
+			break;
+		}
+
+	}
+	return os;
 }
 
 
