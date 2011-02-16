@@ -202,7 +202,8 @@ bool UInteger::operator ==(const UInteger &x)const{
     }
     return result;
  }
-  UInteger UInteger::operator *(const UInteger &x)const{
+
+   UInteger UInteger::operator *(const UInteger &x)const{
     UInteger result = UInteger((long)0,getBase());
     for(UInteger i = UInteger((long)0,getBase()); i<x;++i){
         result += *this;
@@ -236,6 +237,7 @@ UInteger UInteger::operator %(const UInteger &x)const{
 
     return thisbis;
  }
+ /*
  UInteger UInteger::operator ^(const UInteger &x)const{
     UInteger result =*this;
      for(UInteger i = UInteger((long)1);i<x;++i){
@@ -243,6 +245,7 @@ UInteger UInteger::operator %(const UInteger &x)const{
      }
      return result;
  }
+ */
   UInteger& UInteger::operator %=(const UInteger &x){
     *this=*this % x;
     return *this;
@@ -250,33 +253,65 @@ UInteger UInteger::operator %(const UInteger &x)const{
 UInteger UInteger::operator &(const UInteger &n)const{
     UInteger x =toBase(2);
     UInteger y =n.toBase(2);
-    if((x.getDigits().size()) > y.getDigits().size()){
-        y=x.bourrage(x.getDigits().size()-y.getDigits().size());
-        x=y;
-    }
+    //if((x.getDigits().size()) > y.getDigits().size()){
+        y=y.bourrage(x.getDigits().size()-y.getDigits().size());
+        x=x;
+    /*}
     else{
         x=x.bourrage(y.getDigits().size()-x.getDigits().size());
-    }
+    }*/
     UInteger result = UInteger();
     std::_List_const_iterator<char> itx = x.getDigits().begin();
     for (std::_List_const_iterator<char> ity = y.getDigits().begin();ity != y.getDigits().end() || itx!= x.getDigits().end();itx++) {
-        if(*itx==*ity==1){
+        if(*itx==1 &*ity==1){
         result.setDigits().push_back(1);
         }
         else result.setDigits().push_back(0);
         ity++;
     }
-
-    return     result.toBase(getBase());
+    result.base_=2;
+    result= result.toBase(getBase());
+    result.base_=getBase();
+    return result;
  }
-UInteger UInteger::operator |(const UInteger &x)const{
-    UInteger result =*this;
-     for(UInteger i = UInteger((long)1);i<x;++i){
-        result *= result;
-     }
-     return result;
+UInteger UInteger::operator |(const UInteger &n)const{
+    UInteger x =toBase(2);
+    UInteger y =n.toBase(2);
+    y=y.bourrage(x.getDigits().size()-y.getDigits().size());
+    x=x;
+    UInteger result = UInteger();
+    std::_List_const_iterator<char> itx = x.getDigits().begin();
+    for (std::_List_const_iterator<char> ity = y.getDigits().begin();ity != y.getDigits().end() || itx!= x.getDigits().end();itx++) {
+        if(*itx==1 |*ity==1){
+        result.setDigits().push_back(1);
+        }
+        else result.setDigits().push_back(0);
+        ity++;
+    }
+    result.base_=2;
+    result= result.toBase(getBase());
+    result.base_=getBase();
+    return result;
  }
-
+UInteger UInteger::operator ^(const UInteger &n)const{
+    UInteger x =toBase(2);
+    UInteger y =n.toBase(2);
+    y=y.bourrage(x.getDigits().size()-y.getDigits().size());
+    x=x;
+    UInteger result = UInteger();
+    std::_List_const_iterator<char> itx = x.getDigits().begin();
+    for (std::_List_const_iterator<char> ity = y.getDigits().begin();ity != y.getDigits().end() || itx!= x.getDigits().end();itx++) {
+        if(*itx!=*ity){
+        result.setDigits().push_back(1);
+        }
+        else result.setDigits().push_back(0);
+        ity++;
+    }
+    result.base_=2;
+    result= result.toBase(getBase());
+    result.base_=getBase();
+    return result;
+ }
 
 
 
@@ -312,7 +347,8 @@ UInteger UInteger::toBase(char b)const{
 
 	if (*this==UInteger((long)0))result.setDigits()=getDigits();//si le nombre vaut 0, il vaut 0 dans toutes les bases
 
-	else{
+	else if(getBase()>b){
+
 		UInteger tmp = *this;
 		UInteger base = UInteger((long)b,getBase());
 		int cpt = 0;
@@ -329,10 +365,29 @@ UInteger UInteger::toBase(char b)const{
         cout <<"tmp = " << tmp << endl;
         result.setDigits().push_back(tmp.getDigits().front());
 	}
+    else{
+        cout << "hhvh " << *this << endl;
+        int i = 0;
+        for (std::_List_const_iterator<char> itx = getDigits().begin();itx != getDigits().end() ;itx++) {
+            cout <<"azerty " <<(long)pow(getBase(),i) <<endl;
+            result+=*itx*((long)pow(getBase(),i));
+            i++;
+        }
+    }
     return result;
 
-}
 
+
+
+}
+ // pour pouvoir multiplier un UInteger par un long pour augmenter la vitesse d'exetution
+  UInteger UInteger::operator *(const long x)const{
+    UInteger result = UInteger((long)0,getBase());
+    for(long i = 0; i<x;++i){
+        result += *this;
+    }
+    return result;
+ }
 
 //opérateur d'affichage
 ostream& operator << (ostream &os, const UInteger &output){
@@ -340,30 +395,7 @@ ostream& operator << (ostream &os, const UInteger &output){
 	list<char>::const_reverse_iterator it;
 
 	for(it = output.getDigits().rbegin(); it != output.getDigits().rend() ; it++){
-		switch(*it){
-		case 10:
-			os << 'A';
-			break;
-		case 11:
-			os << 'B';
-			break;
-		case 12:
-			os << 'C';
-			break;
-		case 13:
-			os << 'D';
-			break;
-		case 14:
-			os << 'E';
-			break;
-		case 15:
-			os << 'F';
-			break;
-		default:
 			os << (int)*it;
-			break;
-		}
-
 	}
 	return os;
 }

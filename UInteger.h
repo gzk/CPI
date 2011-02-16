@@ -53,7 +53,7 @@ class UInteger : public ArrayNumber{
         UInteger toBase(char base)const;
     private:
         UInteger bourrage(size_t nb) const;
-
+        UInteger operator *(const long x)const;// pour pouvoir multiplier un UInteger par un long pour augmenter la vitesse d'exetution
 };
         std::ostream& operator << (std::ostream& os,const UInteger &x);
 #endif
