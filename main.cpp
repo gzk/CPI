@@ -7,6 +7,10 @@ using namespace std;
 
 
 int main() {
+    int i = -7;
+    int u = 10;
+    int w = i&u;
+    cout << w << endl;
     long l1,l2;
     cin >> l1;
     cin >> l2;
@@ -14,9 +18,9 @@ int main() {
     UInteger ut2 = UInteger(l2);
     //operator o ;
     //cin >> o;
-    cout << ut1 <<" / "<<ut2 << endl;
+    cout << ut1 <<" * "<<ut2 << endl;
 
-    ut1  = ut1/ut2;
+    ut1  = ut1*ut2;
    // ut1  = ut1.toBase(13);
     cout << "resultat : "<< ut1 << ends;
 
