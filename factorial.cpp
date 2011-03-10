@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     for (long i =1; i<l1; ++i)
     {
         j = j * i;
-        //std::cout << i << "! =" << j << "\n";
+        std::cout << i << "! =" << j << "\n";
     }
     // test factorial using operator*(long) and operator=(UInteger const&)
     j = j * l1;

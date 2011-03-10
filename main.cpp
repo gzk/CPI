@@ -1,36 +1,69 @@
-#include "Integer.h"
 #include "UInteger.h"
-#include <iostream>
+#include "Integer.h"
+
 #include <stdio.h>
 #include <stdlib.h>
+
 using namespace std;
 
+int main() {
 
-/*int main() {
-    int i = -7;
-    int u = 10;
-    int w = i&u;
-    cout << w << endl;
     long l1,l2;
+	char base;
+	cout << "Saisir nb 1: ";
     cin >> l1;
+	cout << "Saisir nb 2: ";
     cin >> l2;
-    Integer ut1(l1,10);
-    Integer ut2 = Integer(l2,10);
-    //operator o ;
-    //cin >> o;
-    cout << ut1 <<" * "<<ut2 << endl;
+	cout << "Saisir base: ";
+    cin >> base;
+	cout << endl;
+	/*
+    UInteger a(l1,10);
+    UInteger b = UInteger(l2,10);
 
-    ut1  = ut1*ut2;
-   // ut1  = ut1.toBase(13);
-    cout << "resultat : "<< ut1 << ends;
+	  cout << "a=" << a.getBase() <<"x"<< a << endl;
+	  cout << "b=" << b.getBase() <<"x"<< b << endl << endl;
 
-   // if(ut1<ut2){
-      // cout << "cool" << ends;
-    //}
+	  cout << a <<" += "<< b << " = " ;
+	  a+=b;
+	  cout << a << endl;
+	  cout << a <<" -= "<< b << " = ";
+	  a-=b;
+	  cout << a << endl;
+	  cout << a <<" *= "<< b << " = ";
+	  a*=b;
+	  cout << a << endl;//pas ok
+	  cout << a <<" /= "<< b << " = ";
+	  a/=b;
+	  cout << a << endl;
+	  //cout << a <<" ^ "<< b << " = " << (a^b) << endl;//ok
+	  cout << a <<" %= "<< b << " = ";
+	  a%=b;
+	  cout <<a << endl;*/
 
+	Integer a(l1,10);
+    Integer b = Integer(l2,10);
 
+	  cout << "a=" << a.getNb().getBase() <<"x"<< a << endl;
+	  cout << "b=" << b.getNb().getBase() <<"x"<< b << endl << endl;
+
+	  cout << a <<" += "<< b << " = " ;
+	  a+=b;
+	  cout << a << endl;
+	  cout << a <<" -= "<< b << " = ";//pas ok
+	  a-=b;
+	  cout << a << endl;
+	  cout << a <<" *= "<< b << " = ";//pas ok on ne garde pas le signe
+	  a*=b;
+	  cout << a << endl;//pas ok
+	  cout << a <<" /= "<< b << " = ";
+	  a/=b;
+	  cout << a << endl;
+	  //cout << a <<" ^ "<< b << " = " << (a^b) << endl;//ok
+	 /* cout << a <<" %= "<< b << " = ";
+	  a%=b;
+	  cout <<a << endl*/
 
 }
-*/
 
 

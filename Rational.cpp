@@ -24,7 +24,7 @@ using namespace std;
 
 	}
 
-	Rational::Rational(long numerateur,long denominateur,char base){
+/*	Rational::Rational(long numerateur,long denominateur,char base){
 
 			if(numerateur < 0 && denominateur >0 || numerateur > 0 && denominateur < 0){
 				sign_ = negative_;
@@ -48,3 +48,4 @@ using namespace std;
     const Integer::Sign Integer::getSign() const{
         return sign_;
     }
+*/
