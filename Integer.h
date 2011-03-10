@@ -30,6 +30,14 @@ public:
 	Integer& operator -=(const Integer &x);
 	Integer& operator *= (const Integer &x);
 	Integer& operator /= (const Integer &x);
+    Integer& operator %=(const Integer &x);
+
+    Integer operator %(const Integer &x)const;
+
+    Integer& operator ++();
+    Integer& operator ++(int i);
+    Integer& operator --();
+    Integer& operator --(int i);
 
 	//opérateurs de comparaison
 	bool operator ==(const Integer &x)const;
