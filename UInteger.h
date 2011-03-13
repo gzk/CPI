@@ -33,6 +33,7 @@ public:
 	  UInteger& operator *=(const UInteger &x);
 	  UInteger operator /(const UInteger &x)const;
 	  UInteger& operator /=(const UInteger &x);
+      UInteger modulo(const UInteger &x)const;
 	  UInteger operator %(const UInteger &x)const;
 	  UInteger& operator %=(const UInteger &x);
 	  UInteger operator ^(const UInteger &x)const;
@@ -60,11 +61,12 @@ public:
 	  UInteger operator &(const UInteger &x)const;
 	  UInteger operator |(const UInteger &x)const;
 	  UInteger operator *(const long x)const;// pour pouvoir multiplier un UInteger par un long pour augmenter la vitesse d'exécution
+	   UInteger toBase(char base)const;//convertisseur
 
 private:
 
 	  //méthodes "outils utilisés dans les autres méthodes"
-	  UInteger toBase(char base)const;//convertisseur
+
 	  UInteger bourrage(size_t nb) const;//pour remplir de zéros la liste de chiffres afin de faciliter les calculs (envisager de la supprimer!)
 };
 

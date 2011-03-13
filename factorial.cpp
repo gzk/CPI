@@ -70,7 +70,7 @@
 
 using namespace std;
 
-int main(int argc, char *argv[])
+int main2(int argc, char *argv[])
 {
 
 
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
     long l1;
     cin >> l1;
 
-    UInteger  j((long)1);
+    UInteger  j((long)1,10);
     // test factorial using operator*=(UInteger const&)
     for (long i =1; i<l1; ++i)
     {
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     }
     // test factorial using operator*(long) and operator=(UInteger const&)
     j = j * l1;
-   // j.toBase(10);
+    //j =j.toBase(10);
     std::cout << l1<< "! =" << j << "\n";
     // AJOUTEZ ICI D'AUTRES TEST EXEMPLE 11! / 9!
     // .....

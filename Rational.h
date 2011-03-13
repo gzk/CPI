@@ -11,6 +11,7 @@ class Rational
 public:
     enum Sign {negative_ = -1, zero = 0, positive_ = 1};
     Rational();
+    Rational(Rational const& x);
     Rational(Sign sign,UInteger const& num,UInteger const& den);
     Rational(Integer const& num,Integer const& den);
     Rational(long num,long den,char base);
@@ -25,9 +26,7 @@ public:
     Rational& operator -=(const Rational &x);
     Rational& operator *= (const Rational &x);
     Rational& operator /= (const Rational &x);
-    Rational& operator %=(const Rational &x);
 
-    Rational operator %(const Rational &x)const;
 
     Rational& operator ++();
     Rational& operator ++(int i);
@@ -42,6 +41,8 @@ public:
     bool operator >(const Rational &x)const;
     bool operator >=(const Rational &x)const;
 
+    UInteger pgcd(UInteger i, UInteger j);//methode qui retourne le pgcd
+    Rational& reduire();
     const UInteger& getNum() const;
     const UInteger& getDen() const;
     const Sign getSign() const;

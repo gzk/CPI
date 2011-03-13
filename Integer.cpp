@@ -38,12 +38,15 @@ using namespace std;
 				ui_ = UInteger((long)0,base);
 			}
 	}
-
+	Integer::Integer(UInteger const& x){//copie
+		ui_ = x;
+		sign_ = positive_;
+	}
 	Integer::Integer(Integer const& x){//copie
 		ui_ = x.getNb();
 		sign_ = x.getSign();
 	}
-	
+
 //accesseurs
     const UInteger& Integer::getNb() const{
         return ui_;
@@ -51,29 +54,29 @@ using namespace std;
     const Integer::Sign Integer::getSign() const{
         return sign_;
     }
-	
+
 //opérateurs de calcul
 	Integer Integer::operator +(const Integer &x) const{
-		Integer* result = new Integer();
+		Integer result =Integer();
 
 		UInteger a = getNb();
 		UInteger b = x.getNb();
 
 		if(getSign() == x.getSign()){
-			*result = Integer(x.getSign(), b+a);
+			result = Integer(x.getSign(), b+a);
 		}else{
 			if(getSign() == -1 && a > b){ // !!! implémenter comparaison
-				*result = Integer(negative_,a - b);
+				result = Integer(negative_,a - b);
 			}else if(getSign() > -1 && a > b){
-				*result = Integer(positive_,a - b);
+				result = Integer(positive_,a - b);
 			}else if(getSign() == -1 && a < b){
-				*result = Integer(positive_, b - a);
+				result = Integer(positive_, b - a);
 			}else/*(this.getSign() > -1 && a  < b )*/{
-				*result = Integer(negative_, b - a);
+				result = Integer(negative_, b - a);
 			}
 		}
 
-		return *result;
+		return result;
 	}
 
 	Integer& Integer::operator +=(const Integer &x){
@@ -81,30 +84,30 @@ using namespace std;
 	}
 
 	Integer Integer::operator -(const Integer &x) const{
-		Integer* result = new Integer();
+		Integer result =Integer();
 
 		UInteger a = getNb();
 		UInteger b = x.getNb();
 
 		if(getSign() == x.getSign()){
 			if(a<b){
-				*result = Integer(x.getSign(), b-a);
+				result = Integer(x.getSign(), b-a);
 			}else{
-				*result = Integer(x.getSign(), a-b);
+				result = Integer(x.getSign(), a-b);
 			}
 		}else{
 			if(getSign() == -1 && a > b){
-				*result = Integer(negative_,a - b);
+				result = Integer(negative_,a - b);
 			}else if(getSign() > -1 && a > b){
-				*result = Integer(positive_,a - b);
+				result = Integer(positive_,a - b);
 			}else if(getSign() == -1 && a < b){
-				*result = Integer(positive_, b - a);
+				result = Integer(positive_, b - a);
 			}else/*(this.getSign() > -1 && a  < b )*/{
-				*result = Integer(negative_, b - a);
+				result = Integer(negative_, b - a);
 			}
 		}
 
-		return *result;
+		return result;
 	}
 
 	Integer& Integer::operator -=(const Integer &x){
@@ -118,11 +121,18 @@ using namespace std;
         }
         return (Integer(sign,getNb()*x.getNb()));
 	}
-	
+	Integer Integer::operator *(long x) const{
+        Sign sign = negative_;
+        if((getSign()==1 && x>0 )|| (getSign()==negative_ && x<0 ) ){
+            sign=positive_;
+        }
+        return (Integer(sign,getNb()*x));
+	}
+
 	Integer& Integer::operator *=(const Integer &x){
 		return *this = (*this) * x;
 	}
-	
+
     Integer Integer::operator /(const Integer &x) const{
         Sign sign = negative_;
         if(getSign()==x.getSign()){
@@ -130,31 +140,31 @@ using namespace std;
         }
         return (Integer(sign,getNb()/x.getNb()));
 	}
-	
+
 	Integer& Integer::operator /=(const Integer &x){
 		return *this = (*this) / x;
 	}
-		
+
 	Integer Integer::operator %(const Integer &x)const{
-		return Integer(getSign(),getNb()%x.getNb());	
+		return Integer(getSign(),getNb()%x.getNb());
 	}
-	
+
 	Integer& Integer::operator %=(const Integer &x){
 		return *this = (*this) % x;
 	}
 
-	
-	
+
+
 //opérateurs de comparaison
 
 	bool Integer::operator ==(const Integer &x)const{
 		return getSign()==x.getSign() && getNb()==x.getNb();
 	}
-	
+
 	bool Integer::operator !=(const Integer &x)const{
 		return getSign()!=x.getSign() || getNb()!=x.getNb();
 	}
-	
+
     bool Integer::operator <(const Integer &x)const{//strictement inférieur
          if(getSign()==x.getSign()){
             if(getSign()==negative_){
@@ -164,11 +174,11 @@ using namespace std;
         }
         return getSign()==negative_;
     }
-	
+
 	bool Integer::operator <=(const Integer &x)const{//inférieur ou égal
         return ((*this) < x) || ((*this) == x);
 	}
-	
+
 	bool Integer::operator >(const Integer &x)const{
 		if(getSign()==x.getSign()){
             if(getSign()==negative_){
@@ -178,7 +188,7 @@ using namespace std;
         }
         return getSign()==positive_;
 	}
-	
+
 	bool Integer::operator >=(const Integer &x)const{
 		return ((*this) > x) || ((*this) == x);
 	}
@@ -198,7 +208,7 @@ using namespace std;
 	Integer& Integer::operator --(int i){
 		return *this = *this + Integer((long)-i,(*this).getNb().getBase());
 	}
-	
+
 //opérateurs logiques
 /*
 	Integer Integer::operator &(const Integer &x)const;
@@ -209,6 +219,6 @@ using namespace std;
 
 	  ostream& operator << (ostream &os, const Integer &output){
 			if(output.getSign() == Integer::negative_) os << '-';
-			os << output.getNb();			
+			os << output.getNb();
 			return os;
 	  }
