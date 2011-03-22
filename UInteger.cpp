@@ -20,6 +20,7 @@ UInteger::UInteger(UInteger const& x) //constructeur de copie
 UInteger::UInteger(unsigned long x, char base) //constructeur principal de la classe, qui appelle celui d'ArrayNumber pour initialiser la liste
 {
     ArrayNumber a((unsigned long)x, base);
+  //  cout << a <<endl;
     digits_= a.getDigits();
     base_ = a.getBase();
 }
@@ -77,6 +78,49 @@ UInteger& UInteger::operator +=(const UInteger &x) //addition unaire
 
 UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
 {
+        UInteger result =*this;
+        if(x.digits_.size() > result.digits_.size()){
+            return  UInteger(0);
+        }
+        bool retenu = false;
+        int base = (int)x.base_;
+        list<char>::iterator it;
+        list<char>::const_iterator ite;
+        ite = x.digits_.begin();
+        for(it = result.setDigits().begin(); ite != x.digits_.end() ; it++)
+        {
+            (*it) -= (*ite) ;
+            if(retenu) {
+                (*it)--;
+            }
+            retenu = false;
+            while((*it) < 0){
+                retenu = true;
+                (*it) += base;
+            }
+            ite++;
+        }
+        for(; it != result.setDigits().end() ; it++){
+             if(retenu){
+                 (*it)--;
+             }
+             retenu = false;
+             if((*it) < 0){
+                 (*it) += base;
+                 retenu = true;
+             }
+        }
+
+    list<char>::reverse_iterator itr = result.setDigits().rbegin();
+    //list<char> tmp=list<char>();
+   // int zero = 1;
+    while(itr!=result.setDigits().rend()&&*itr==0){
+        result.setDigits().pop_back();
+        itr++;
+    }
+    //result.getDigits().end()=itr;
+
+        return result;/*
     if(operator<(x))
     {
         //cout << "Entiers non signés: impossible de soustraire un nombre plus grand!" << endl;
@@ -93,7 +137,7 @@ UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
     	  uib=x.bourrage(getDigits().size()-x.getDigits().size());
     	  uia=*this;
     }
-    */
+
     int retenue =0;
     UInteger result =UInteger();
 
@@ -114,7 +158,6 @@ UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
         }
         itb++;
     }
-      /*  cout << " "<<result << endl;
 
     while((itb != getDigits().end()))
     {
@@ -143,8 +186,26 @@ UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
             retenue=0;
         }
         ita++;
+    }/*
+    list<char>::iterator itr = result.setDigits().end();
+    //list<char> tmp=list<char>();
+   // int zero = 1;
+    while(itr!=result.setDigits().begin()&&*itr=='0'){
+        /*if(*itr!='0'&& zero){
+            zero=0;
+        }
+        if(!zero){
+            tmp.push_back(*itr);
+        }
+
+       // cout<<(int)*itr<<endl;
+        itr++;*/
+/*        result.setDigits().erase(itr);
+        itr--;
     }*/
-    return result;
+    //result.getDigits().end()=itr;
+
+   //return result;
 }
 
 UInteger& UInteger::operator -=(const UInteger &x) //soustraction unaire
@@ -176,6 +237,9 @@ UInteger& UInteger::operator *=(const UInteger &x) //multiplication unaire
 
 UInteger UInteger::operator /(const UInteger &x)const //division binaire
 {
+    if(x==UInteger(1)){
+    return *this;
+    }
     if(x>*this || x ==UInteger((long)0))
     {
         return UInteger((long)0,getBase());
@@ -183,7 +247,7 @@ UInteger UInteger::operator /(const UInteger &x)const //division binaire
     UInteger result = UInteger((long)0,getBase());
     UInteger thisbis = *this;
     while(thisbis-x>UInteger((long)0,getBase()))
-    {
+    {   //cout <<endl<< thisbis << " 1 " <<endl;
         thisbis-=x;
         ++result;
     }

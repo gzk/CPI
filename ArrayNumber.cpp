@@ -1,5 +1,5 @@
 #include "ArrayNumber.h"
-
+#include <iostream>
 using namespace std;
 
 
@@ -8,8 +8,8 @@ using namespace std;
 			base_ = 10;
 	  }
 
-	  ArrayNumber::ArrayNumber(unsigned long int n, char base){//constructeur principal, il effectue la conversion vers la base voulue
-			
+	  ArrayNumber::ArrayNumber(unsigned long n, char base){//constructeur principal, il effectue la conversion vers la base voulue
+
 			base_ = base;
 			if (n==0) setDigits().push_front(0); //si n vaut 0 on met 0 dans digits_
 			else{
@@ -17,6 +17,7 @@ using namespace std;
 						unsigned long stock = n % base_;
 						setDigits().push_back(stock);
 						n /= base_;
+						//cout << n << endl;
 				  }
 			}
 	  }
@@ -34,7 +35,14 @@ using namespace std;
 	  char ArrayNumber::getBase()const{
 			return base_;
 	  }
-
+std::ostream& operator << (std::ostream& os, const ArrayNumber& output)
+{
+    list<char>::const_reverse_iterator it;
+    for(it = output.getDigits().rbegin() ; it != output.getDigits().rend() ; it++){
+      os << (int)*it;
+    }
+  return os;
+}
 
 
 

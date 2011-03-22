@@ -8,8 +8,8 @@ using namespace std;
 
 int main() {
 
-    long l1,l2,l3,l4;
-	char base;
+    unsigned long l1,l2,l3,l4;
+	long base;
 	cout << "Saisir nb 1: ";
     cin >> l1;
 	cout << "Saisir nb 2: ";
@@ -44,9 +44,19 @@ int main() {
 	  cout << a <<" %= "<< b << " = ";
 	  a%=b;
 	  cout <<a << endl;*/
+	  /*UInteger a,b ;
+	  cout<<base<<endl;
+	  a=UInteger(l1,base);
+	  cout<<a<<endl;
+	  b=UInteger(l2,base);
+	  if(a<b){
+        cout << "1"<<endl;
+	  }
+	  else cout << "1"<<endl;
+	 */
     Rational a(Integer(l1,base),Integer(l2,base));
     Rational b(Integer(l3,base),Integer(l4,base));
-
+      cout <<l1 <<endl;
 	  cout << "a=" << a << endl;
 	  cout << "b=" << b << endl << endl;
 
@@ -54,7 +64,7 @@ int main() {
 	  a+=b;
 	  cout << a << endl;
 	  cout << a <<" -= "<< b << " = ";//pas ok
-	  a-=b;
+      a-=b;
 	  cout << a << endl;
 	  cout << a <<" *= "<< b << " = ";//pas ok on ne garde pas le signe
 	  a*=b;
@@ -62,6 +72,15 @@ int main() {
 	  cout << a <<" /= "<< b << " = ";
 	  a/=b;
 	  cout << a << endl;
+/*
+	  if(a>b){
+      cout << a <<" > "<< b << " = " ;
+	  }
+	  else       cout << a <<" < "<< b << " = " ;
+      if(a<b){
+      cout << a <<" < "<< b << " = " ;
+	  }
+	  else       cout << a <<" > "<< b << " = " ;
 	  //cout << a <<" ^ "<< b << " = " << (a^b) << endl;//ok
 	 /* cout << a <<" %= "<< b << " = ";
 	  a%=b;
