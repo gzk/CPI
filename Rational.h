@@ -51,8 +51,6 @@ private:
     UInteger num_;
     UInteger den_;
     Sign sign_;
-
-
 };
 
 std::ostream& operator << (std::ostream &os, const Rational &output);

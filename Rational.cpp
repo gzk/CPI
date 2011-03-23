@@ -10,14 +10,14 @@ Rational::Rational()
 }
 Rational::Rational(Sign sign,UInteger const& num,UInteger const& den)
 {
-    sign_ =sign_;
+    sign_ =sign;
     num_ = num;
     if (den == UInteger(0))
     {
         exit(1);
     }
     den_ = den;
-     reduire();
+    reduire();
 }
 Rational::Rational(Integer const& numerateur,Integer const& denominateur)
 {
@@ -28,9 +28,7 @@ Rational::Rational(Integer const& numerateur,Integer const& denominateur)
     else sign_ = positive_;
     den_ = denominateur.getNb();
     num_ = numerateur.getNb();
-    // cout<<den_<<endl;
-    // cout<<num_<<endl;
-     reduire();
+    reduire();
 }
 
 Rational::Rational(long numerateur,long denominateur,char base)
@@ -72,14 +70,12 @@ Rational Rational::operator +(const Rational &x) const
     Rational result;
     if(getDen()==x.getDen())
     {
-        result=Rational((Integer(getNum())*getSign())+(Integer(x.getNum())*x.getSign()),getDen());
+        result=Rational((Integer((Integer::Sign)getSign(),getNum()))+(Integer((Integer::Sign) x.getSign(),x.getNum())),getDen());
     }
     else
     {
-        result=Rational(((Integer(getNum())*getSign())*x.getDen())+((Integer(x.getNum())*x.getSign())*getDen()),getDen()*x.getDen());
+        result=Rational(((Integer((Integer::Sign)getSign(),getNum()))*x.getDen())+((Integer((Integer::Sign) x.getSign(),x.getNum()))*getDen()),getDen()*x.getDen());
     }
-    // cout << ((Integer(getNum())*getSign())*x.getDen())+((Integer(x.getNum())*x.getSign())*getDen()) <<endl;
-
     result.reduire();
     return result;
 }
@@ -94,15 +90,14 @@ Rational Rational::operator -(const Rational &x) const
     Rational result;
     if(getDen()==x.getDen())
     {
-        result=Rational((Integer(getNum())*getSign())-(Integer(x.getNum())*x.getSign()),getDen());
+        result=Rational((Integer((Integer::Sign)getSign(),getNum()))-(Integer((Integer::Sign) x.getSign(),x.getNum())),getDen());
     }
     else
     {
-        result=Rational(((Integer(getNum())*getSign())*x.getDen())-((Integer(x.getNum())*x.getSign())*getDen()),getDen()*x.getDen());
+        result=Rational(((Integer((Integer::Sign)getSign(),getNum()))*x.getDen())-((Integer((Integer::Sign) x.getSign(),x.getNum()))*getDen()),getDen()*x.getDen());
     }
     result.reduire();
     return result;
-
 }
 
 Rational& Rational::operator -=(const Rational &x)
@@ -165,9 +160,9 @@ bool Rational::operator <(const Rational &x)const //strictement inférieur
     {
         if(getSign()==negative_)
         {
-            return (getNum() > x.getNum()) && (getDen() <=x.getDen());
+            return (getNum()*x.getDen()>x.getNum()*getDen());
         }
-        else return (getNum() < x.getNum()) && (getDen() >=x.getDen());
+        else return (getNum()*x.getDen()<x.getNum()*getDen());
     }
     return getSign()==negative_;
 }
@@ -183,9 +178,9 @@ bool Rational::operator >(const Rational &x)const
     {
         if(getSign()==negative_)
         {
-            return (getNum() < x.getNum()) && (getDen() >=x.getDen());
+            return getNum()*x.getDen()<x.getNum()*getDen();
         }
-        else return (getNum() > x.getNum()) && (getDen() <=x.getDen());
+        else return (getNum()*x.getDen()>x.getNum()*getDen());
     }
     return getSign()==positive_;
 }
@@ -216,73 +211,27 @@ Rational& Rational::operator --(int i)
 }
 UInteger Rational::pgcd(UInteger i, UInteger j)//methode qui retourne le pgcd
 {
-    // if(i==j) return i;
-    /*  if (i<j) swap(i,j);
-      if(j == UInteger(0))
-          return i;
-      else
-          return pgcd(j, i%j);
-
-     /*
-    while(j>UInteger(0))
+    while(i!=j )
     {
-        cout<<i<<endl;
-        if (i<j)
+        if(i>j)
         {
-
-            swap(i,j);
+            i-=j;
         }
-        i=j;
-        j= i% j;
-    }
-    return i;*/
-    /*while(j!=UInteger(0))
-    {
-        if(i<j)
+        else j-=i;
+        if(j==UInteger(0))
         {
-            swap(i,j);
+            return i;
         }
-        i=i-j;
-    }
-    cout<<i<<endl;
-    cout<<j<<endl;
-
-    return i;*/
-/*    do{
-
-    if(i>j){
-    i=i-j;}
-    else j=j-i;
-    }while(i!=j && i!=UInteger(0));
-    return j;
-*/
-while(i!=j){
-    if(i>j){
-        i-=j;
-    }
-    else j-=i;
     }
     return i;
 }
 Rational& Rational::reduire()
 {
-   /* cout << den_ <<" =den "<<endl;
-     cout << num_ <<" =num "<<endl;
-*/
     UInteger pgcd = (*this).pgcd(den_,num_);
-    //cout <<pgcd <<" =pgcd ";
-      num_/=pgcd;
-      den_/=pgcd;
-    /* cout << den_ <<" =den "<<endl;
-      cout << num_ <<" =num "<<endl;
-      */
+    num_/=pgcd;
+    den_/=pgcd;
     return (*this);
 }
-//opérateurs logiques
-/*
-	Rational Rational::operator &(const Rational &x)const;
-	Rational Rational::operator |(const Rational &x)const;
-	Rational Rational::operator ^(const UInteger &x)const;*/
 
 //opérateur d'affichage
 

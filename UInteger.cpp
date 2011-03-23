@@ -100,6 +100,7 @@ UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
             }
             ite++;
         }
+
         for(; it != result.setDigits().end() ; it++){
              if(retenu){
                  (*it)--;
@@ -110,102 +111,14 @@ UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
                  retenu = true;
              }
         }
-
+   // cout << result << endl;
     list<char>::reverse_iterator itr = result.setDigits().rbegin();
-    //list<char> tmp=list<char>();
-   // int zero = 1;
-    while(itr!=result.setDigits().rend()&&*itr==0){
+    while(itr!=result.setDigits().rend()&&*(itr++)==0){
         result.setDigits().pop_back();
-        itr++;
+        //itr++;
     }
-    //result.getDigits().end()=itr;
-
-        return result;/*
-    if(operator<(x))
-    {
-        //cout << "Entiers non signés: impossible de soustraire un nombre plus grand!" << endl;
-        //pas d'affichage car la soustraction est utilisée dans la division!
-        return NULL;
-    }
-    //ajout de zero
-    /*UInteger uia,uib;
-    if((x.getDigits().size()) > getDigits().size()){
-    	  uia=bourrage(x.getDigits().size()-getDigits().size());
-    	  uib=x;
-    }
-    else{
-    	  uib=x.bourrage(getDigits().size()-x.getDigits().size());
-    	  uia=*this;
-    }
-
-    int retenue =0;
-    UInteger result =UInteger();
-
-    // calcul
-    _List_const_iterator<char> itb = getDigits().begin();
-    _List_const_iterator<char> ita ;
-    for (ita=x.getDigits().begin(); ita != x.getDigits().end() && itb!= getDigits().end(); ita++)
-    {
-        if((*itb-*ita-retenue)%base_<0)
-        {
-            result.setDigits().push_back( base_+(*itb-*ita-retenue));
-            retenue=1;
-        }
-        else
-        {
-            result.setDigits().push_back((*itb-*ita-retenue));
-            retenue=0;
-        }
-        itb++;
-    }
-
-    while((itb != getDigits().end()))
-    {
-        if((*itb-retenue)%base_<0)
-        {
-            result.setDigits().push_back( base_+(*itb-retenue));
-            retenue=1;
-        }
-        else
-        {
-            result.setDigits().push_back((*itb-retenue));
-            retenue=0;
-        }
-        itb++;
-    }
-    while((ita != x.getDigits().end()))
-    {
-        if((*ita-retenue)%base_<0)
-        {
-            result.setDigits().push_back( base_+(*ita-retenue));
-            retenue=1;
-        }
-        else
-        {
-            result.setDigits().push_back((*ita-retenue));
-            retenue=0;
-        }
-        ita++;
-    }/*
-    list<char>::iterator itr = result.setDigits().end();
-    //list<char> tmp=list<char>();
-   // int zero = 1;
-    while(itr!=result.setDigits().begin()&&*itr=='0'){
-        /*if(*itr!='0'&& zero){
-            zero=0;
-        }
-        if(!zero){
-            tmp.push_back(*itr);
-        }
-
-       // cout<<(int)*itr<<endl;
-        itr++;*/
-/*        result.setDigits().erase(itr);
-        itr--;
-    }*/
-    //result.getDigits().end()=itr;
-
-   //return result;
+    //cout << result << endl;
+        return result;
 }
 
 UInteger& UInteger::operator -=(const UInteger &x) //soustraction unaire
@@ -237,6 +150,7 @@ UInteger& UInteger::operator *=(const UInteger &x) //multiplication unaire
 
 UInteger UInteger::operator /(const UInteger &x)const //division binaire
 {
+
     if(x==UInteger(1)){
     return *this;
     }
@@ -246,11 +160,15 @@ UInteger UInteger::operator /(const UInteger &x)const //division binaire
     }
     UInteger result = UInteger((long)0,getBase());
     UInteger thisbis = *this;
-    while(thisbis-x>UInteger((long)0,getBase()))
-    {   //cout <<endl<< thisbis << " 1 " <<endl;
+    while((thisbis-x)>UInteger((long)0,getBase()))
+    {
+
         thisbis-=x;
+      //  cout <<endl<< thisbis-x << " 1 " << x <<endl;
         ++result;
     }
+
+
     if(thisbis==x)
     {
         ++result;
@@ -329,7 +247,6 @@ UInteger& UInteger::operator --(int i) //retrait d'un entier donné
     *this -= UInteger((long)i,getBase());
     return  *this;
 }
-
 
 //opérateurs de comparaison
 
