@@ -20,7 +20,6 @@ UInteger::UInteger(UInteger const& x) //constructeur de copie
 UInteger::UInteger(unsigned long x, char base) //constructeur principal de la classe, qui appelle celui d'ArrayNumber pour initialiser la liste
 {
     ArrayNumber a((unsigned long)x, base);
-  //  cout << a <<endl;
     digits_= a.getDigits();
     base_ = a.getBase();
 }
@@ -29,35 +28,27 @@ UInteger::UInteger(unsigned long x, char base) //constructeur principal de la cl
 
 UInteger UInteger::operator +(const UInteger &x)const //addition binaire
 {
-    /* UInteger uia,uib;
-    	//ajout de zéros via la méthode bourrage
-    	if((x.getDigits().size()) > getDigits().size()){
-    		  uia=bourrage(x.getDigits().size()-getDigits().size());
-    		  uib=x;
-    	}
-    	else{
-    		  uib=x.bourrage(getDigits().size()-x.getDigits().size());
-    		  uia=*this;
-    	}
-    	*/
     UInteger result =UInteger();//résultat nul
     int retenue =0;
     _List_const_iterator<char> ita = x.getDigits().begin();
     _List_const_iterator<char> itb ;
     for (itb= getDigits().begin(); itb != getDigits().end() && ita!= x.getDigits().end(); ita++)
     {
+//on parcoure les nombres en s'arrêtant à la fin de la première des deux listes pour additionner chaque chiffre
         result.setDigits().push_back((retenue+*itb+*ita)%base_);
         retenue=(retenue+*ita+*itb)/base_;
         itb++;
     }
     while((itb != getDigits().end()))
     {
+//on termine de parcourir la deuxième liste (si on n'est pas au bout)
         result.setDigits().push_back((retenue+*itb)%base_);
         retenue=(retenue+*itb)/base_;
         itb++;
     }
     while((ita != x.getDigits().end()))
     {
+//idem pour la première liste
         result.setDigits().push_back((retenue+*ita)%base_);
         retenue=(retenue+*ita)/base_;
         ita++;
@@ -69,6 +60,7 @@ UInteger UInteger::operator +(const UInteger &x)const //addition binaire
 
 UInteger& UInteger::operator +=(const UInteger &x) //addition unaire
 {
+//on appelle l'addition et on affecte son résultat au nombre appelant
     UInteger uia;
     uia = x + *this;
     setDigits()=uia.getDigits();
@@ -111,14 +103,12 @@ UInteger UInteger::operator -(const UInteger &x)const //soustraction binaire
                  retenu = true;
              }
         }
-   // cout << result << endl;
+
     list<char>::reverse_iterator itr = result.setDigits().rbegin();
     while(itr!=result.setDigits().rend()&&*(itr++)==0){
         result.setDigits().pop_back();
-        //itr++;
     }
-    //cout << result << endl;
-        return result;
+    return result;
 }
 
 UInteger& UInteger::operator -=(const UInteger &x) //soustraction unaire
@@ -164,7 +154,6 @@ UInteger UInteger::operator /(const UInteger &x)const //division binaire
     {
 
         thisbis-=x;
-      //  cout <<endl<< thisbis-x << " 1 " << x <<endl;
         ++result;
     }
 
@@ -201,7 +190,6 @@ UInteger UInteger::operator %(const UInteger &x)const //modulo binaire
     UInteger thisbis = *this;
     while(thisbis-x>UInteger((long)0,getBase()))
     {
-        //cout << *this << endl;
         thisbis-=x;
         ++result;
     }
