@@ -173,14 +173,6 @@ UInteger& UInteger::operator /=(const UInteger &x) //division unaire
     return *this;
 }
 
-UInteger UInteger::modulo(const UInteger &x)const //modulo
-{
-    if((*this)>x)
-    {
-        return (*this)-(((*this)/x)*x);
-    }
-    else  return x-((x/(*this))*(*this));
-}
 UInteger UInteger::operator %(const UInteger &x)const //modulo binaire
 {
     if(x>*this || x ==UInteger((long)0))
