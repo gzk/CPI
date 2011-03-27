@@ -3,6 +3,7 @@
 using namespace std;
 
 
+
 //constructeurs:
 	  ArrayNumber::ArrayNumber(){ //nombre nul, la base par défaut est de 10
 			base_ = 10;

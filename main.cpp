@@ -5,7 +5,12 @@
 #include <stdlib.h>
 
 using namespace std;
-
+/**
+* \fn int main (void)
+* \brief Calcul des factorielles de 1 jusqu'au nombre saisie .
+*
+* \return EXIT_SUCCESS - Arrêt normal du programme.
+*/
 int main() {
 
     unsigned long l1,l2,l3,l4;
@@ -42,6 +47,20 @@ int main() {
 	  cout << a <<" /= "<< b << " = ";
 	  a/=b;
 	  cout << a << endl;
+/*
+    long l1;
+    cin >> l1;
+
+    UInteger  j((long)1,10);
+    // test factorial using operator*=(UInteger const&)
+    for (long i =1; i<l1; ++i)
+    {
+        j = j * i;
+        std::cout << i << "! =" << j << "\n";
+    }
+    j = j * l1;
+    std::cout << l1<< "! =" << j << "\n";*/
+    return EXIT_SUCCESS;
 }
 
 

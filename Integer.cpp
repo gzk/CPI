@@ -17,7 +17,7 @@ Integer::Integer()
 Integer::Integer(Sign sign, UInteger x)
 {
     sign_ = sign;
-    ui_ = UInteger(x);
+    ui_ = x;
 }
 
 Integer::Integer(long x, char base)
@@ -62,14 +62,13 @@ const Integer::Sign Integer::getSign() const
 //opérateurs de calcul
 Integer Integer::operator +(const Integer &x) const
 {
-    Integer result =Integer();
+    Integer result ;
 
     UInteger a = getNb();
     UInteger b = x.getNb();
-
     if(getSign() == x.getSign())
     {
-        result = Integer(x.getSign(), b+a);
+        result = Integer(x.getSign(), a+b);
     }
     else
     {
