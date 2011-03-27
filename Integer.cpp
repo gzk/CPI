@@ -1,7 +1,6 @@
 #include <iterator>
 #include <math.h>
 #include <iostream>
-
 #include "UInteger.h"
 #include "Integer.h"
 

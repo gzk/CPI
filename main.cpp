@@ -47,7 +47,7 @@ int main() {
 	  cout << a <<" /= "<< b << " = ";
 	  a/=b;
 	  cout << a << endl;
-/*
+/*calcul de factoriel
     long l1;
     cin >> l1;
 
